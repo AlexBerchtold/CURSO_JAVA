@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+   <session-factory>
+   <property name="hibernate.dialect">
+     	org.hibernate.dialect.PostgreSQLDialect
+   </property>
+   <property name="hibernate.connection.driver_class">
+      org.postgresql.Driver
+   </property>
+
+   <!-- Datos para la conexion de la Base de datos -->
+   <property name="hibernate.connection.url">
+      jdbc:postgresql://localhost:5432/abpsstock_db
+   </property>
+   <property name="hibernate.connection.username">
+      postgres
+   </property>
+   <property name="hibernate.connection.password">
+      12345
+   </property>
+   
+    <property name="hibernate.current_session_context_class">thread</property>
+
+    <property name="hbm2ddl.auto">update</property>
+
+    <property name="show_sql">true</property>
+
+   <!-- Lista de mapeo de clases -->
+    <mapping class="py.edu.cursojava.entidad.Categoria"/>
+    <mapping class="py.edu.cursojava.entidad.Cliente"/>
+    <mapping class="py.edu.cursojava.entidad.Funcionario"/>
+    <mapping class="py.edu.cursojava.entidad.Marca"/>
+    <mapping class="py.edu.cursojava.entidad.Producto"/>
+    <mapping class="py.edu.cursojava.entidad.Venta"/>
+    <mapping class="py.edu.cursojava.entidad.VentaDetalle"/>
+    
+</session-factory>
+</hibernate-configuration>

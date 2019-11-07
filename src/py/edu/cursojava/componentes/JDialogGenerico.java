@@ -1,20 +1,18 @@
 package py.edu.cursojava.componentes;
 
-import java.awt.EventQueue;
-
-import javax.swing.JDialog;
-import javax.swing.JToolBar;
-import java.awt.Insets;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.Font;
-import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 
 public class JDialogGenerico extends JDialog {
 	private BotonesJtollsbarPersonalizados btnsjtlsbrprsnlzdsNuevo;

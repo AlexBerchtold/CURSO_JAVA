@@ -1,5 +1,6 @@
 package py.edu.cursojava.entidades;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,6 +25,8 @@ public class Venta {
 	private boolean anulado;
 	@Column(name="ven_obs", length=250)
 	private String obs;
+	@Column(name="ven_fecha", nullable=false)
+	private Date fecha;
 	@ManyToOne
 	private Funcionario funcionario;
 	@ManyToOne
@@ -71,6 +74,12 @@ public class Venta {
 	}
 	public void setVentaDetalles(List<VentaDetalle> ventaDetalles) {
 		this.ventaDetalles = ventaDetalles;
+	}
+	public Date getFecha() {
+		return fecha;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 
 }

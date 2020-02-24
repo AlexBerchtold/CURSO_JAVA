@@ -22,5 +22,20 @@ public class ClienteDao extends GenericDao<Cliente> {
 		commit();
 		return lista;
 	}
+	
+	public Cliente verificarCedula(String ci) {
+		iniciarTransaccion();
+		String sql = "from tb_clientes where UPPER(documento) like :filtro";
+		Query<Cliente> query = getSession().createQuery(sql);
+		query.setParameter("filtro", ci.toUpperCase());
+		Cliente cliente;
+		try {
+			cliente = query.getSingleResult();
+		} catch (Exception e) {
+			cliente =null;
+		}
+		commit();
+		return cliente;
+	}
 
 }

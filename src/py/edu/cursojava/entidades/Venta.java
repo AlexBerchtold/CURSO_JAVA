@@ -3,16 +3,20 @@ package py.edu.cursojava.entidades;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.transaction.Transactional;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity(name="tb_ventas")
+@Transactional
 public class Venta {
 	@Id
 	@GenericGenerator(name="ven_generator",  strategy="increment")
@@ -31,7 +35,7 @@ public class Venta {
 	private Funcionario funcionario;
 	@ManyToOne
 	private Cliente cliente;
-	@OneToMany(mappedBy="venta")
+	@OneToMany(mappedBy="venta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<VentaDetalle> ventaDetalles;
 	public int getId() {
 		return id;

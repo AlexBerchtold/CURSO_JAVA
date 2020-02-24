@@ -44,7 +44,7 @@ public abstract class GenericDao <T> {
 		getSession().delete(entity);
 	}
 	
-	public T recuperarPorId(Serializable id) {
+	public T recuperarPorId(int id) {
 		iniciarTransaccion();
 		T result = getSession().get(clase, id);
 		commit();

@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity(name = "tb_marcar")
+@Entity(name = "tb_marcas")
 public class Marca {
 	@Id
 	@GenericGenerator(name="mar_generator", strategy="increment")

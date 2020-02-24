@@ -120,7 +120,7 @@ public class JDialogGenerico extends JDialog implements ActionListener{
 		case "Nuevo":
 			interfaceAcciones.nuevo();
 			break;
-		case "Modifcar":
+		case "Modificar":
 			interfaceAcciones.modificar();
 			break;
 		case "Eliminar":

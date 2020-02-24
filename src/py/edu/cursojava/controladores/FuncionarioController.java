@@ -7,31 +7,32 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JOptionPane;
-import py.edu.cursojava.dao.ClienteDao;
-import py.edu.cursojava.entidades.Cliente;
+
+import py.edu.cursojava.dao.FuncionarioDao;
+import py.edu.cursojava.entidades.Funcionario;
 import py.edu.cursojava.interfaces.InterfaceAcciones;
-import py.edu.cursojava.tablas.ModeloTablaCliente;
+import py.edu.cursojava.tablas.ModeloTablaFuncionario;
 import py.edu.cursojava.utilidades.EventosGenericos;
 import py.edu.cursojava.utilidades.UtilidadesFecha;
-import py.edu.cursojava.vistas.ClienteVentana;
+import py.edu.cursojava.vistas.FuncionarioVentana;
 
-public class ClienteController implements InterfaceAcciones {
+public class FuncionarioController implements InterfaceAcciones {
 	
-	private ClienteVentana ventana;
-	private ModeloTablaCliente modeloTablaCliente;
-	private Cliente cliente;
-	private List<Cliente> clientes;
-	private ClienteDao dao;
+	private FuncionarioVentana ventana;
+	private ModeloTablaFuncionario modeloTablaFuncionario;
+	private Funcionario funcionario;
+	private List<Funcionario> funcionarios;
+	private FuncionarioDao dao;
 	
 
-	public ClienteController(ClienteVentana clienteVentana) {
+	public FuncionarioController(FuncionarioVentana funcionarioVentana) {
 		super();
-		this.ventana= clienteVentana;
+		this.ventana= funcionarioVentana;
 		this.ventana.setInterfaceAcciones(this);
-		modeloTablaCliente = new ModeloTablaCliente();
-		this.ventana.getTable().setModel(modeloTablaCliente);
-		dao = new ClienteDao();
-		consultarClientes();
+		modeloTablaFuncionario = new ModeloTablaFuncionario();
+		this.ventana.getTable().setModel(modeloTablaFuncionario);
+		dao = new FuncionarioDao();
+		consultarFuncionarios();
 		estadoinicial();
 		setUpEvents();
 	}
@@ -46,10 +47,10 @@ public class ClienteController implements InterfaceAcciones {
 		ventana.getTfBuscador().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyChar()==KeyEvent.VK_ENTER) consultarClientes();;
+				if (e.getKeyChar()==KeyEvent.VK_ENTER) consultarFuncionarios();;
 			}
 		});
-		
+
 	}
 	
 	private void estadoinicial() {
@@ -61,7 +62,8 @@ public class ClienteController implements InterfaceAcciones {
 		EventosGenericos.estadosJtexField(ventana.getjPanelFormulario(), false);
 		EventosGenericos.limpiarJtexField(ventana.getjPanelFormulario());
 		ventana.getTfFecha().setValue(null);;
-		ventana.getChbEstado().setSelected(true);;
+		ventana.getChbEstado().setSelected(true);
+		ventana.getCbCargo().setEnabled(false);
 		ventana.getTfFecha().setEnabled(false);
 		ventana.getChbEstado().setEnabled(false);
 		ventana.getBtnGuardar().setText("Guardar");
@@ -77,6 +79,7 @@ public class ClienteController implements InterfaceAcciones {
 		EventosGenericos.estadosJtexField(ventana.getjPanelFormulario(), true);
 		ventana.getTfFecha().setEnabled(true);
 		ventana.getChbEstado().setEnabled(true);
+		ventana.getCbCargo().setEnabled(true);
 		ventana.getTable().setEnabled(false);
 	}
 
@@ -85,6 +88,7 @@ public class ClienteController implements InterfaceAcciones {
 		EventosGenericos.estadosJtexField(ventana.getjPanelFormulario(), true);
 		ventana.getTfFecha().setEnabled(true);
 		ventana.getChbEstado().setEnabled(true);
+		ventana.getCbCargo().setEnabled(true);
 		ventana.getBtnCancelar().setEnabled(true);
 		ventana.getBtnGuardar().setEnabled(true);
 		ventana.getBtnGuardar().setText("Actualizar");
@@ -92,18 +96,18 @@ public class ClienteController implements InterfaceAcciones {
 
 	@Override
 	public void eliminar() {
-		if (cliente==null) {
-			JOptionPane.showMessageDialog(null, "Cliente no encontrado");
+		if (funcionario==null) {
+			JOptionPane.showMessageDialog(null, "Funcionario no encontrado");
 			return;
 		}
-		int respuesta = JOptionPane.showConfirmDialog(null, "Estas deguro que desea eliminar el cliente "+cliente.getNombre(),
+		int respuesta = JOptionPane.showConfirmDialog(null, "Estas deguro que desea eliminar el funcionario "+funcionario.getNombre(),
 				"Antención", JOptionPane.YES_NO_OPTION);
 		if (respuesta==JOptionPane.YES_OPTION) {
 			try {
-				dao.eliminar(cliente);
+				dao.eliminar(funcionario);
 				dao.commit();
 				estadoinicial();
-				consultarClientes();
+				consultarFuncionarios();
 			} catch (Exception e) {
 				dao.rollback();
 				e.printStackTrace();
@@ -124,12 +128,12 @@ public class ClienteController implements InterfaceAcciones {
 	@Override
 	public void guardar() {
 		if (!validarCampos()) return;
-		cliente = new Cliente();
+		funcionario = new Funcionario();
 		cargarEntidad();
 		try {
-			dao.guardar(cliente);
+			dao.guardar(funcionario);
 			dao.commit();
-			consultarClientes();
+			consultarFuncionarios();
 			estadoinicial();
 		} catch (Exception e) {
 			dao.rollback();
@@ -142,9 +146,9 @@ public class ClienteController implements InterfaceAcciones {
 		if (!validarCampos()) return;
 		cargarEntidad();
 		try {
-			dao.guardar(cliente);
+			dao.guardar(funcionario);
 			dao.commit();
-			consultarClientes();
+			consultarFuncionarios();
 			estadoinicial();
 		} catch (Exception e) {
 			dao.rollback();
@@ -153,29 +157,30 @@ public class ClienteController implements InterfaceAcciones {
 	}
 	
 	private void cargarEntidad() {
-		cliente.setNombre(this.ventana.getTfNombre().getText());
-		cliente.setApellido(this.ventana.getTfApellido().getText());
-		cliente.setDocumento(this.ventana.getTfDocumento().getText());
-		cliente.setTelefono(this.ventana.getTfTelefono().getText());
-		cliente.setEmail(this.ventana.getTfEmail().getText());
-		cliente.setDireccion(this.ventana.getTfDireccion().getText());
+		funcionario.setNombre(this.ventana.getTfNombre().getText());
+		funcionario.setApellido(this.ventana.getTfApellido().getText());
+		funcionario.setDocumento(this.ventana.getTfDocumento().getText());
+		funcionario.setTelefono(this.ventana.getTfTelefono().getText());
+		funcionario.setEmail(this.ventana.getTfEmail().getText());
+		funcionario.setDireccion(this.ventana.getTfDireccion().getText());
 		
-		cliente.setFechaRegistro(UtilidadesFecha.stringAFecha(this.ventana.getTfFecha().getText()));
-		cliente.setEstado(this.ventana.getChbEstado().isSelected());
+		funcionario.setFechaRegistro(UtilidadesFecha.stringAFecha(this.ventana.getTfFecha().getText()));
+		funcionario.setEstado(this.ventana.getChbEstado().isSelected());
+		funcionario.setCargo(ventana.getCbCargo().getSelectedItem().toString());
 	}
 	
 	private void seleccionarRegistro(int index) {
 		if(index<0)return;
-		cliente = clientes.get(index);
-		ventana.getTfNombre().setText(cliente.getNombre());
-		ventana.getTfApellido().setText(cliente.getApellido());
-		ventana.getTfDocumento().setText(cliente.getDocumento());
-		ventana.getTfTelefono().setText(cliente.getTelefono());
-		ventana.getTfDireccion().setText(cliente.getDireccion());
-		ventana.getTfEmail().setText(cliente.getEmail());
-		ventana.getTfFecha().setText(UtilidadesFecha.fechaAString(cliente.getFechaRegistro()));
-		ventana.getChbEstado().setSelected(cliente.isEstado());
-		
+		funcionario = funcionarios.get(index);
+		ventana.getTfNombre().setText(funcionario.getNombre());
+		ventana.getTfApellido().setText(funcionario.getApellido());
+		ventana.getTfDocumento().setText(funcionario.getDocumento());
+		ventana.getTfTelefono().setText(funcionario.getTelefono());
+		ventana.getTfDireccion().setText(funcionario.getDireccion());
+		ventana.getTfEmail().setText(funcionario.getEmail());
+		ventana.getTfFecha().setText(UtilidadesFecha.fechaAString(funcionario.getFechaRegistro()));
+		ventana.getChbEstado().setSelected(funcionario.isEstado());
+		ventana.getCbCargo().setSelectedItem(funcionario.getCargo());
 		ventana.getBtnNuevo().setEnabled(false);
 		ventana.getBtnSalir().setEnabled(false);
 		ventana.getBtnModificar().setEnabled(true);
@@ -183,9 +188,9 @@ public class ClienteController implements InterfaceAcciones {
 		
 	}
 	
-	private void consultarClientes() {
-		clientes = dao.filtrarClientes(this.ventana.getTfBuscador().getText());
-		modeloTablaCliente.setLista(clientes);
+	private void consultarFuncionarios() {
+		funcionarios = dao.filtrarFuncionarios(this.ventana.getTfBuscador().getText());
+		modeloTablaFuncionario.setLista(funcionarios);
 	}
 	
 	private boolean validarCampos() {
@@ -218,11 +223,10 @@ public class ClienteController implements InterfaceAcciones {
 			return false;
 		}
 		if (dao.verificarCedula(ventana.getTfDocumento().getText())!=null) {
-			if(cliente!=null & cliente.getId() == dao.verificarCedula(ventana.getTfDocumento().getText()).getId()) return true;
+			if(funcionario!=null & funcionario.getId() == dao.verificarCedula(ventana.getTfDocumento().getText()).getId()) return true;
 			JOptionPane.showMessageDialog(null, "Documento Duplicado");
 			return false;
 		}
-		
 		return true;
 	}
 	

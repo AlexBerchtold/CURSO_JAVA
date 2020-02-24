@@ -40,7 +40,7 @@ public class ModeloTablaVentaDetalle extends AbstractTableModel{
 		case 0:
 			return lista.get(r).getProducto().getDescripcion()+" "+lista.get(r).getProducto().getMarca().getDescripcion();
 		case 1:
-			return lista.get(r).getProducto().getPrecioVenta();
+			return UtilidadesNumeros.doubleString(lista.get(r).getProducto().getPrecioVenta());
 		case 2:
 			return lista.get(r).getCantidad();
 		case 3:

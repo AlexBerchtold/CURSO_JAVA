@@ -7,11 +7,12 @@ import javax.swing.table.AbstractTableModel;
 
 import py.edu.cursojava.entidades.Venta;
 import py.edu.cursojava.utilidades.UtilidadesFecha;
+import py.edu.cursojava.utilidades.UtilidadesNumeros;
 
 public class ModeloTablaVenta extends AbstractTableModel{
 
 	private static final long serialVersionUID = 1L;
-	private String[] columnas = {"Id", "Hora y Fecha", "Funcionario", "Cliente", "Monto"};
+	private String[] columnas = {"Id", "Fecha", "Funcionario", "Cliente", "Monto"};
 	private List<Venta> lista = new ArrayList<Venta>();
 	
 	public void setLista(List<Venta> lista) {
@@ -46,7 +47,7 @@ public class ModeloTablaVenta extends AbstractTableModel{
 		case 3:
 			return lista.get(r).getCliente().getNombre();
 		case 4:
-			return lista.get(r).getTotal();
+			return UtilidadesNumeros.doubleString(lista.get(r).getTotal());
 		}
 		return null;
 	}

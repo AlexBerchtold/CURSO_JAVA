@@ -19,5 +19,22 @@
 	<classpathentry kind="lib" path="librerias/mysql-connector-java-5.1.15-bin.jar"/>
 	<classpathentry kind="lib" path="librerias/postgresql-42.2.8.jar"/>
 	<classpathentry kind="lib" path="librerias/jaxb-api-2.3.1.jar"/>
+	<classpathentry kind="lib" path="librerias/commons-beanutils-1.8.0.jar"/>
+	<classpathentry kind="lib" path="librerias/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="librerias/commons-digester-2.1.jar"/>
+	<classpathentry kind="lib" path="librerias/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="librerias/geronimo-jta_1.1_spec-1.1.1.jar"/>
+	<classpathentry kind="lib" path="librerias/groovy-all-2.0.1.jar"/>
+	<classpathentry kind="lib" path="librerias/itext-2.1.7.jar"/>
+	<classpathentry kind="lib" path="librerias/jandex-2.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="librerias/jasperreports-6.3.1.jar"/>
+	<classpathentry kind="lib" path="librerias/jasperreports-fonts-6.3.1.jar"/>
+	<classpathentry kind="lib" path="librerias/jcommon-1.0.8.jar"/>
+	<classpathentry kind="lib" path="librerias/jfreechart.jar"/>
+	<classpathentry kind="lib" path="librerias/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="librerias/jsr250-api-1.0.jar"/>
+	<classpathentry kind="lib" path="librerias/cdi-api-1.1.jar"/>
+	<classpathentry kind="lib" path="librerias/ecj-3.3.1.jar"/>
+	<classpathentry kind="lib" path="librerias/el-api-2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

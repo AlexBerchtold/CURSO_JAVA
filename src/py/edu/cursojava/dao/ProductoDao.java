@@ -38,5 +38,32 @@ public class ProductoDao extends GenericDao<Producto> {
 		commit();
 		return producto;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Producto> filtroListadoProducto(String desde, String hasta, String categoria, String marca, String order){
+		if (marca.equals("Todo")) {
+			marca = "";
+		}else {
+			marca = "and UPPER(marca.descripcion) like '"+marca.toUpperCase()+"'";
+		}
+		if (categoria.equals("Todo")) {
+			categoria = "";
+		}else {
+			categoria = "and UPPER(categoria.descripcion) like '"+categoria.toUpperCase()+"'";
+		}
+		iniciarTransaccion();
+		String sql = "from tb_productos where UPPER(descripcion) BETWEEN :desde and :hasta "+marca+" "+categoria
+				+ " order by "+order.toLowerCase();
+		
+		Query<Producto> query = getSession().createQuery(sql);
+		query.setParameter("desde", desde.toUpperCase());
+		query.setParameter("hasta", hasta.toUpperCase()+"zzzzzz");
+		
+		System.out.println(sql);
+		
+		List<Producto> lista = query.getResultList();
+		commit();
+		return lista;
+	}
 
 }

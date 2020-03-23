@@ -37,5 +37,25 @@ public class ClienteDao extends GenericDao<Cliente> {
 		commit();
 		return cliente;
 	}
+	
+	public List<Cliente> filtroListadoClientes(String dNombre, String hNombre, String dApellido, String hApellido, String order){
+		iniciarTransaccion();
+		
+		String sql = "from tb_clientes where UPPER(nombre) BETWEEN :dNombre and :hNombre "
+				+ "and UPPER(apellido) BETWEEN :dApellido and :hApellido "
+				+ "order by "+order.toLowerCase();
+		
+		Query<Cliente> query = getSession().createQuery(sql);
+		
+		query.setParameter("dNombre", dNombre.toUpperCase());
+		query.setParameter("hNombre", hNombre.toUpperCase()+"zzzzz");
+		query.setParameter("dApellido", dApellido.toUpperCase());
+		query.setParameter("hApellido", hApellido.toUpperCase()+"zzzzz");
+		
+		
+		List<Cliente> lista = query.getResultList();
+		commit();
+		return lista;
+	}
 
 }

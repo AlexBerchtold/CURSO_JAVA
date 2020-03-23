@@ -1,6 +1,5 @@
 package py.edu.cursojava.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -55,11 +54,19 @@ public abstract class GenericDao <T> {
 	@SuppressWarnings("unchecked")
 	public List<T> recuperarTodos(){
 		iniciarTransaccion();
-		String sql= "fron "+clase.getName()+" order by id";
+		String sql= "from "+clase.getName()+" order by id";
 		Query<T> query = getSession().createQuery(sql);
 		List<T> lista = query.getResultList();
 		commit();
 		return lista;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void inizializarTabla(String tabla) {
+		iniciarTransaccion();
+		String sql = "TRUNCATE TABLE "+tabla+" CASCADE";
+		Query query = getSession().createNativeQuery(sql);
+		query.executeUpdate();
 	}
 
 }

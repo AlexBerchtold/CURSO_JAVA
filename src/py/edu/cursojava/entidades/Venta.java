@@ -37,6 +37,7 @@ public class Venta {
 	private Cliente cliente;
 	@OneToMany(mappedBy="venta", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<VentaDetalle> ventaDetalles;
+	
 	public int getId() {
 		return id;
 	}

@@ -49,7 +49,7 @@ public class ProductoVentana extends JDialogGenerico {
 		}
 	}
 	
-	private void setUpController() {
+	public void setUpController() {
 		new ProductoController(this);
 	}
 

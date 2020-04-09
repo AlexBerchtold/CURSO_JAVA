@@ -41,15 +41,15 @@ public class ProductoDao extends GenericDao<Producto> {
 	
 	@SuppressWarnings("unchecked")
 	public List<Producto> filtroListadoProducto(String desde, String hasta, String categoria, String marca, String order){
-		if (marca.equals("Todo")) {
-			marca = "";
-		}else {
-			marca = "and UPPER(marca.descripcion) like '"+marca.toUpperCase()+"'";
-		}
 		if (categoria.equals("Todo")) {
 			categoria = "";
 		}else {
 			categoria = "and UPPER(categoria.descripcion) like '"+categoria.toUpperCase()+"'";
+		}
+		if (marca.equals("Todo")) {
+			marca = "";
+		}else {
+			marca = "and UPPER(marca.descripcion) like '"+marca.toUpperCase()+"'";
 		}
 		iniciarTransaccion();
 		String sql = "from tb_productos where UPPER(descripcion) BETWEEN :desde and :hasta "+marca+" "+categoria
